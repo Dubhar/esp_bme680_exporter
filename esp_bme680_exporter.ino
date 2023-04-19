@@ -46,7 +46,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 const char index_metrics[] PROGMEM = R"rawliteral(
 # HELP bsec_uptime_sec Uptime of the device in seconds.
 # TYPE bsec_uptime_sec gauge
-bsec_uptime_sec %UPTIME_SEC%
+bsec_uptime_secLOCATION_LABEL %UPTIME_SEC%
 # HELP bsec_raw_temperature Raw temperature reading of the BME680 sensor, not compensated for heat emitted by gas sensor.
 # TYPE bsec_raw_temperature gauge
 bsec_raw_temperature %BSEC_RAW_TEMPERATURE%
@@ -108,7 +108,22 @@ void setup(void) {
   });
   server.on("/metrics", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/plain", index_metrics, processor);
-  });  
+  });
+  server.on("/iaq", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send_P(200, "text/plain", String(bsec_static_iaq).c_str());
+  });
+  server.on("/co2", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send_P(200, "text/plain", String(bsec_co2_equiv).c_str());
+  });
+  server.on("/voc", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send_P(200, "text/plain", String(bsec_breath_voc_equiv).c_str());
+  });
+  server.on("/temp", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send_P(200, "text/plain", String(bsec_compensated_temp).c_str());
+  });
+  server.on("/humidity", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send_P(200, "text/plain", String(bsec_compensated_humidity).c_str());
+  });
   server.begin();
 
   // Setup BME680 sensor
