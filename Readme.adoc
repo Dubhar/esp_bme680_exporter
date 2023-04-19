@@ -43,11 +43,14 @@ Here is a snippet of a `prometheus.yml` configuration
 Here are some queries as starting point. Adjust them and make yourself a dashboard that suits you!
 
 ```
-# simplest queries
+# simple query without LOCATION defined
 bsec_compensated_temp
 
+# simple query with LOCATION defined
+bsec_compensated_temp{location="backyard"}
+
 # queries with calculations (adjust pressure for temperature and measurement altitude of 186m)
-((0.01*bsec_raw_pressure) * (1.0 - ((0.0065*186.0) / (bsec_compensated_temp + (0.0065 * 186.0) + 273.15)))^-5.257 )
+((0.01*bsec_raw_pressure{location="portable"}) * (1.0 - ((0.0065*186.0) / (bsec_compensated_temp{location="portable"} + (0.0065 * 186.0) + 273.15)))^-5.257 )
 ```
 
 == Comparison to link:https://github.com/Dubhar/bme680_exporter[Dubhar/bme680_exporter]

@@ -7,6 +7,7 @@
 #include "secrets.h" // this file has to be created by YOU. within it you #define the following two SECRETs
 const char* ssid = SECRET_WIFI_NAME;
 const char* password = SECRET_WIFI_PASSWORD;
+//#define LOCATION "backyard"
 #define SERVER_PORT 80
 #define SDA_PIN 4
 #define SCL_PIN 5
@@ -43,10 +44,50 @@ const char index_html[] PROGMEM = R"rawliteral(
   </p>
 </body>
 </html>)rawliteral";
+#ifdef LOCATION
 const char index_metrics[] PROGMEM = R"rawliteral(
 # HELP bsec_uptime_sec Uptime of the device in seconds.
 # TYPE bsec_uptime_sec gauge
-bsec_uptime_secLOCATION_LABEL %UPTIME_SEC%
+bsec_uptime_sec{location="%LOCATION%"} %UPTIME_SEC%
+# HELP bsec_raw_temperature Raw temperature reading of the BME680 sensor, not compensated for heat emitted by gas sensor.
+# TYPE bsec_raw_temperature gauge
+bsec_raw_temperature{location="%LOCATION%"} %BSEC_RAW_TEMPERATURE%
+# HELP bsec_raw_pressure Raw pressure reading of the BME680 sensor.
+# TYPE bsec_raw_pressure gauge
+bsec_raw_pressure{location="%LOCATION%"} %BSEC_RAW_PRESSURE%
+# HELP bsec_raw_humidity Raw humidity reading of the BME680 sensor.
+# TYPE bsec_raw_humidity gauge
+bsec_raw_humidity{location="%LOCATION%"} %BSEC_RAW_HUMIDITY%
+# HELP bsec_raw_gas Raw gas resistance (ohm) reading of the BME680 sensor.
+# TYPE bsec_raw_gas gauge
+bsec_raw_gas{location="%LOCATION%"} %BSEC_RAW_GAS%
+# HELP bsec_raw_iaq Raw IAQ (Indoor Air Quality) reading of the BME680 sensor.
+# TYPE bsec_raw_iaq gauge
+bsec_raw_iaq{location="%LOCATION%"} %BSEC_RAW_IAQ%
+# HELP bsec_iaq_accuracy Accuracy of the IAQ. One of: 0="initializing", 1="unstable", 2="recalibrating", 3="stable"
+# TYPE bsec_iaq_accuracy gauge
+bsec_iaq_accuracy{location="%LOCATION%"} %BSEC_IAQ_ACCURACY%
+# HELP bsec_compensated_temp Temperature reading of the BME680 sensor, compensated for heat emitted by gas sensor.
+# TYPE bsec_compensated_temp gauge
+bsec_compensated_temp{location="%LOCATION%"} %BSEC_COMPENSATED_TEMP%
+# HELP bsec_compensated_humidity Humidity reading of the BME680 sensor.
+# TYPE bsec_compensated_humidity gauge
+bsec_compensated_humidity{location="%LOCATION%"} %BSEC_COMPENSATED_HUMIDITY%
+# HELP bsec_static_iaq Static IAQ (Indoor Air Quality) reading of the BME680 sensor.
+# TYPE bsec_static_iaq gauge
+bsec_static_iaq{location="%LOCATION%"} %BSEC_STATIC_IAQ%
+# HELP bsec_co2_equiv CO2 (Carbon Dioxide) equivalent reading of the BME680 sensor.
+# TYPE bsec_co2_equiv gauge
+bsec_co2_equiv{location="%LOCATION%"} %BSEC_CO2_EQUIV%
+# HELP bsec_breath_voc_equiv Breath VOC (Volatile Organic Compounds) equivalent reading of the BME680 sensor.
+# TYPE bsec_breath_voc_equiv gauge
+bsec_breath_voc_equiv{location="%LOCATION%"} %BSEC_BREATH_VOC_EQUIV%
+)rawliteral";
+#else
+const char index_metrics[] PROGMEM = R"rawliteral(
+# HELP bsec_uptime_sec Uptime of the device in seconds.
+# TYPE bsec_uptime_sec gauge
+bsec_uptime_sec %UPTIME_SEC%
 # HELP bsec_raw_temperature Raw temperature reading of the BME680 sensor, not compensated for heat emitted by gas sensor.
 # TYPE bsec_raw_temperature gauge
 bsec_raw_temperature %BSEC_RAW_TEMPERATURE%
@@ -81,6 +122,7 @@ bsec_co2_equiv %BSEC_CO2_EQUIV%
 # TYPE bsec_breath_voc_equiv gauge
 bsec_breath_voc_equiv %BSEC_BREATH_VOC_EQUIV%
 )rawliteral";
+#endif
 
 // Helper functions declarations
 void checkIaqSensorStatus(void);
@@ -190,42 +232,49 @@ void errLeds(void) {
 }
 
 String processor(const String& var) {
+#ifdef LOCATION
+  if (var == "LOCATION") {
+    return String(LOCATION);
+  }
+#endif
+
   if (var == "UPTIME_SEC") {
     return String(uptime_sec);
   }
-  else if (var == "BSEC_RAW_TEMPERATURE") {
+  if (var == "BSEC_RAW_TEMPERATURE") {
     return String(bsec_raw_temperature);
   }
-  else if (var == "BSEC_RAW_PRESSURE") {
+  if (var == "BSEC_RAW_PRESSURE") {
     return String(bsec_raw_pressure);
   }
-  else if (var == "BSEC_RAW_HUMIDITY") {
+  if (var == "BSEC_RAW_HUMIDITY") {
     return String(bsec_raw_humidity);
   }
-  else if (var == "BSEC_RAW_GAS") {
+  if (var == "BSEC_RAW_GAS") {
     return String(bsec_raw_gas);
   }
-  else if (var == "BSEC_RAW_IAQ") {
+  if (var == "BSEC_RAW_IAQ") {
     return String(bsec_raw_iaq);
   }
-  else if (var == "BSEC_IAQ_ACCURACY") {
+  if (var == "BSEC_IAQ_ACCURACY") {
     return String(bsec_iaq_accuracy);
   }
-  else if (var == "BSEC_COMPENSATED_TEMP") {
+  if (var == "BSEC_COMPENSATED_TEMP") {
     return String(bsec_compensated_temp);
   }
-  else if (var == "BSEC_COMPENSATED_HUMIDITY") {
+  if (var == "BSEC_COMPENSATED_HUMIDITY") {
     return String(bsec_compensated_humidity);
   }
-  else if (var == "BSEC_STATIC_IAQ") {
+  if (var == "BSEC_STATIC_IAQ") {
     return String(bsec_static_iaq);
   }
-  else if (var == "BSEC_CO2_EQUIV") {
+  if (var == "BSEC_CO2_EQUIV") {
     return String(bsec_co2_equiv);
   }
-  else if (var == "BSEC_BREATH_VOC_EQUIV") {
+  if (var == "BSEC_BREATH_VOC_EQUIV") {
     return String(bsec_breath_voc_equiv);
   }
+
   return String();
 }
 
