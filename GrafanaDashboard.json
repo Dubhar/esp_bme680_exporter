@@ -21,6 +21,7 @@
       }
     ]
   },
+  "description": "",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -121,7 +122,7 @@
             "uid": "z2UXPgHVz"
           },
           "editorMode": "builder",
-          "expr": "bsec_compensated_humidity{location=\"portable\"}",
+          "expr": "bsec_compensated_humidity{location=\"$bme_location\"}",
           "legendFormat": " ",
           "range": true,
           "refId": "A"
@@ -222,7 +223,7 @@
             "uid": "z2UXPgHVz"
           },
           "editorMode": "builder",
-          "expr": "bsec_compensated_temp{location=\"portable\"}",
+          "expr": "bsec_compensated_temp{location=\"$bme_location\"}",
           "legendFormat": " ",
           "range": true,
           "refId": "A"
@@ -314,7 +315,7 @@
             "uid": "z2UXPgHVz"
           },
           "editorMode": "code",
-          "expr": "0.01*bsec_raw_pressure{location=\"portable\"}",
+          "expr": "0.01*bsec_raw_pressure{location=\"$bme_location\"}",
           "legendFormat": "Rohdaten",
           "range": true,
           "refId": "A"
@@ -325,7 +326,7 @@
             "uid": "z2UXPgHVz"
           },
           "editorMode": "code",
-          "expr": "((0.01*bsec_raw_pressure{location=\"portable\"}) * (1.0 - ((0.0065*186.0) / (bsec_compensated_temp{location=\"portable\"} + (0.0065 * 186.0) + 273.15)))^-5.257 )\n",
+          "expr": "((0.01*bsec_raw_pressure{location=\"$bme_location\"}) * (1.0 - ((0.0065*186.0) / (bsec_compensated_temp{location=\"$bme_location\"} + (0.0065 * 186.0) + 273.15)))^-5.257 )\n",
           "hide": false,
           "legendFormat": "Kompensiert",
           "range": true,
@@ -348,7 +349,7 @@
           },
           "decimals": 0,
           "mappings": [],
-          "max": 500,
+          "max": 400,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -410,13 +411,13 @@
             "uid": "z2UXPgHVz"
           },
           "editorMode": "builder",
-          "expr": "bsec_static_iaq{location=\"portable\"}",
+          "expr": "bsec_static_iaq{location=\"$bme_location\"}",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "IAQ",
+      "title": "Luftqualität [IAQ]",
       "type": "gauge"
     },
     {
@@ -492,7 +493,7 @@
             "uid": "z2UXPgHVz"
           },
           "editorMode": "builder",
-          "expr": "bsec_co2_equiv{location=\"portable\"}",
+          "expr": "bsec_co2_equiv{location=\"$bme_location\"}",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -513,7 +514,7 @@
             "mode": "thresholds"
           },
           "mappings": [],
-          "max": 5.5,
+          "max": 4,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -571,7 +572,7 @@
             "uid": "z2UXPgHVz"
           },
           "editorMode": "builder",
-          "expr": "bsec_breath_voc_equiv{location=\"portable\"}",
+          "expr": "bsec_breath_voc_equiv{location=\"$bme_location\"}",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -599,8 +600,8 @@
             "type": "prometheus",
             "uid": "z2UXPgHVz"
           },
-          "editorMode": "code",
-          "expr": "bsec_iaq_accuracy{location=\"portable\"}",
+          "editorMode": "builder",
+          "expr": "bsec_iaq_accuracy{location=\"$bme_location\"}",
           "legendFormat": "IAQ Accuracy",
           "range": true,
           "refId": "A"
@@ -638,16 +639,44 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "portable",
+          "value": "portable"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "z2UXPgHVz"
+        },
+        "definition": "label_values(bsec_uptime_sec, location)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sensor",
+        "multi": false,
+        "name": "bme_location",
+        "options": [],
+        "query": {
+          "query": "label_values(bsec_uptime_sec, location)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "type": "query"
+      }
+    ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Luftqualität",
   "uid": "RoHq-1PVz",
-  "version": 6,
+  "version": 9,
   "weekStart": ""
 }
