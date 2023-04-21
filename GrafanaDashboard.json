@@ -507,7 +507,7 @@
         "type": "prometheus",
         "uid": "z2UXPgHVz"
       },
-      "description": "",
+      "description": "Recommended Exposure\ngreen: no limit,\nyellow: < 12 months, \norange: < 1 month, \nred: hours",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -677,6 +677,6 @@
   "timezone": "",
   "title": "Luftqualität",
   "uid": "RoHq-1PVz",
-  "version": 10,
+  "version": 11,
   "weekStart": ""
 }
