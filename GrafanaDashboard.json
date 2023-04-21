@@ -432,12 +432,12 @@
           },
           "mappings": [],
           "max": 5500,
-          "min": 0,
+          "min": 439,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "#00ff00",
+                "color": "#28ff28",
                 "value": null
               },
               {
@@ -445,19 +445,19 @@
                 "value": 600
               },
               {
-                "color": "#EAB839",
+                "color": "#ffff00",
                 "value": 800
               },
               {
-                "color": "#ffff00",
+                "color": "#ff7e00",
                 "value": 1000
               },
               {
-                "color": "#ff7e00",
+                "color": "#ff0000",
                 "value": 2500
               },
               {
-                "color": "#ff0000",
+                "color": "#99004c",
                 "value": 5000
               }
             ]
@@ -642,7 +642,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "portable",
           "value": "portable"
         },
@@ -677,6 +677,6 @@
   "timezone": "",
   "title": "Luftqualität",
   "uid": "RoHq-1PVz",
-  "version": 9,
+  "version": 10,
   "weekStart": ""
 }
