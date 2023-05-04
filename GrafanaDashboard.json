@@ -586,11 +586,79 @@
         "type": "prometheus",
         "uid": "z2UXPgHVz"
       },
-      "description": "0=initializing, 1=unstable, 2=recalibrating, 3=stable",
+      "description": "Lüften wenn außen < innen",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 5,
         "x": 15,
+        "y": 6
+      },
+      "id": 20,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "z2UXPgHVz"
+          },
+          "editorMode": "code",
+          "expr": "(243.04 * (ln(bsec_compensated_humidity / 100) + (17.625 * bsec_compensated_temp / (243.04 + bsec_compensated_temp)))) / (17.625 - (ln(bsec_compensated_humidity / 100) + (17.625 * bsec_compensated_temp / (243.04 + bsec_compensated_temp))))",
+          "hide": false,
+          "legendFormat": " ",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Taupunkt",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "z2UXPgHVz"
+      },
+      "description": "0=initializing, 1=unstable, 2=recalibrating, 3=stable",
+      "gridPos": {
+        "h": 6,
+        "w": 2,
+        "x": 20,
         "y": 6
       },
       "id": 16,
@@ -677,6 +745,6 @@
   "timezone": "",
   "title": "Luftqualität",
   "uid": "RoHq-1PVz",
-  "version": 11,
+  "version": 13,
   "weekStart": ""
 }
