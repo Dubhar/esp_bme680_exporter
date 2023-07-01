@@ -403,7 +403,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -485,7 +485,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -564,7 +564,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -631,7 +631,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -639,7 +639,7 @@
             "uid": "z2UXPgHVz"
           },
           "editorMode": "code",
-          "expr": "(243.04 * (ln(bsec_compensated_humidity / 100) + (17.625 * bsec_compensated_temp / (243.04 + bsec_compensated_temp)))) / (17.625 - (ln(bsec_compensated_humidity / 100) + (17.625 * bsec_compensated_temp / (243.04 + bsec_compensated_temp))))",
+          "expr": "(243.04 * (ln(bsec_compensated_humidity{location=\"$bme_location\"} / 100) + (17.625 * bsec_compensated_temp{location=\"$bme_location\"} / (243.04 + bsec_compensated_temp{location=\"$bme_location\"})))) / (17.625 - (ln(bsec_compensated_humidity{location=\"$bme_location\"} / 100) + (17.625 * bsec_compensated_temp{location=\"$bme_location\"} / (243.04 + bsec_compensated_temp{location=\"$bme_location\"}))))",
           "hide": false,
           "legendFormat": " ",
           "range": true,
@@ -710,9 +710,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "portable",
-          "value": "portable"
+          "selected": true,
+          "text": "Dachgeschoss",
+          "value": "Dachgeschoss"
         },
         "datasource": {
           "type": "prometheus",
@@ -738,13 +738,13 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Luftqualität",
   "uid": "RoHq-1PVz",
-  "version": 13,
+  "version": 14,
   "weekStart": ""
 }
